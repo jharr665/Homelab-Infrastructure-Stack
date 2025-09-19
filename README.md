@@ -1,2 +1,3 @@
-# Homelab-Infrastructure-Stack
-Proxmox + TrueNAS (ZFS) + OPNsense — virtualization, storage, and network foundations for my homelab.
+# Infrastructure & Virtualization Stack
+
+Docs and examples for Proxmox, TrueNAS, OPNsense, networking, DR.
