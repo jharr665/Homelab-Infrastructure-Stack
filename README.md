@@ -28,21 +28,34 @@ This repo documents the **foundation** under the rest of my homelab: hypervisors
 
 ```mermaid
 flowchart LR
+  %% --- Subgraphs ---
   subgraph DC["Homelab Rack"]
-    PVE1[(Proxmox Node 1)]
-    PVE2[(Proxmox Node 2)]
-    PVE3[(Proxmox Node 3)]
-    SW[10GbE Switch]
+    PVE1["Proxmox Node 1"];
+    PVE2["Proxmox Node 2"];
+    PVE3["Proxmox Node 3"];
+    SW["10GbE Switch"];
   end
 
   subgraph VMs["Core VMs"]
-    TRUENAS[TrueNAS VM\n(ZFS Pools, NFS/SMB, iSCSI)]
-    OPN[OPNsense\n(Firewall, VLANs, WG)]
+    TRUENAS["TrueNAS VM (ZFS Pools, NFS/SMB, iSCSI)"];
+    OPN["OPNsense (Firewall, VLANs, WG)"];
   end
 
-  U[Admin Laptop] -->|Mgmt VLAN (HTTPS/SSH)| SW
-  SW --- PVE1 & PVE2 & PVE3
-  PVE1 --> TRUENAS
-  PVE2 --> OPN
-  TRUENAS -->|NFS/SMB/iSCSI| PVE1 & PVE2 & PVE3
-  OPN -->|Inter-VLAN routing + ACLs| SW
+  %% --- Other Nodes ---
+  U["Admin Laptop"];
+
+  %% --- Edges ---
+  U -->|"Mgmt VLAN (HTTPS/SSH)"| SW;
+  SW --- PVE1;
+  SW --- PVE2;
+  SW --- PVE3;
+
+  PVE1 --> TRUENAS;
+  PVE2 --> OPN;
+
+  TRUENAS -->|"NFS/SMB/iSCSI"| PVE1;
+  TRUENAS -->|"NFS/SMB/iSCSI"| PVE2;
+  TRUENAS -->|"NFS/SMB/iSCSI"| PVE3;
+
+  OPN -->|"Inter-VLAN routing + ACLs"| SW;
+
